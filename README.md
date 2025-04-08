@@ -1,6 +1,7 @@
 example input:
-python main.py "test_out_spins.dat"
+python main.py
 
 Spin Only and X Only data displays not implemented. Can use buttons but 
-"Read File" will crash if clicked while Spin Only or X Only is selected.
-Consider deleting. 
+"Read .dat File" will crash if clicked while Spin Only or X Only is selected.
+
+Only .dat files may be processed.

@@ -13,9 +13,9 @@ class MyWindow(QWidget):
         self.setWindowTitle("Spin Reader")
         self.setGeometry(100, 100, 1300, 700)
 
-        if len(sys.argv) < 2:
+        if len(sys.argv) != 1:
             print("Ising machine GUI\n")
-            print("Usage: python main.py data_file.dat")
+            print("Usage: python main.py")
             sys.exit(1)
 
         self.main_layout = QVBoxLayout()
@@ -36,6 +36,9 @@ class MyWindow(QWidget):
         self.RegressButton.clicked.connect(self.Regress)
         self.PlayPauseButton = QPushButton("Play", self)
         self.PlayPauseButton.clicked.connect(self.PlayPauseControl)
+        self.ProgressButton.setEnabled(False)
+        self.RegressButton.setEnabled(False)
+        self.PlayPauseButton.setEnabled(False)
 
         self.timer = QTimer(self)
         self.timer.timeout.connect(self.Progress)
@@ -72,6 +75,9 @@ class MyWindow(QWidget):
 
     def setup_time_slider(self):
         if self.data_processing.times:
+            self.ProgressButton.setEnabled(True)
+            self.RegressButton.setEnabled(True)
+            self.PlayPauseButton.setEnabled(True)
             self.time_slider.setEnabled(True)
             self.time_slider.setTracking(True)
             max_time_index = len(self.data_processing.times) - 1
@@ -90,7 +96,7 @@ class MyWindow(QWidget):
     def PlayPauseControl(self):
         if self.PlayPauseButton.text() == "Play":
             self.PlayPauseButton.setText("Pause")
-            self.timer.start(100) #Make choosable
+            self.timer.start(100) #Make choosable LATER
         else:
             self.PlayPauseButton.setText("Play")
             self.timer.stop()
