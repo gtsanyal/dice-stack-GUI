@@ -42,11 +42,11 @@ class CircleModel(QWidget):
 
         # 0 Marker
         marker_x = self.circleCenter.x()
-        marker_y = self.circleCenter.y() + self.circleRadius
+        marker_y = self.circleCenter.y() - self.circleRadius
         painter.drawLine(marker_x, marker_y - 10, marker_x, marker_y + 10)
 
         # Boundary Marker
-        small_circle_center = QPoint(self.circleCenter.x(), self.circleCenter.y() - self.circleRadius)
+        small_circle_center = QPoint(self.circleCenter.x(), self.circleCenter.y() + self.circleRadius)
         painter.setBrush(QBrush(QColor(125, 125, 125)))
         painter.drawEllipse(small_circle_center.x() - 3, small_circle_center.y() - 3, 6, 6)
 
@@ -74,7 +74,7 @@ class CircleModel(QWidget):
         elif spin == -1:
             color = QColor(0, 0, 255)  # Blue
         
-        NodeX = self.circleCenter.x() + ModelRadius * np.cos(np.pi * x_val + np.pi/2)
+        NodeX = self.circleCenter.x() - ModelRadius * np.cos(np.pi * x_val + np.pi/2)
         NodeY = self.circleCenter.y() + ModelRadius * np.sin(np.pi * x_val + np.pi/2)
         painter.setBrush(color)
         painter.setPen(color)
