@@ -36,7 +36,7 @@ class CircleModel(QWidget):
         width = self.width() - 150
         height = self.height()
         # center_x_offset = 150
-        self.circleRadius = max(int(min(width, height) // 2.25), 150)
+        self.circleRadius = max(int(min(width, height) // 2.25), 155)
         self.circleCenter = QPoint(self.rect().center().x(), self.rect().center().y())
         painter.drawEllipse(self.circleCenter, self.circleRadius, self.circleRadius)
 
