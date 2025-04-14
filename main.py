@@ -28,7 +28,7 @@ class MyWindow(QWidget):
         # Slider for time control
         self.time_slider = QSlider(Qt.Orientation.Horizontal, self)
         self.data_processing.data_loaded.connect(self.setup_time_slider)
-        self.time_label = QLabel("Time: 0.000", self)
+        self.time_label = QLabel("0.000", self)
 
         self.ProgressButton = QPushButton("Increase Time", self)
         self.ProgressButton.clicked.connect(self.Progress)
@@ -47,23 +47,34 @@ class MyWindow(QWidget):
         self.initUI()
 
         self.setup_time_slider()
-
+    
     def initUI(self):
-        # palette = self.palette()
-        # palette.setColor(QPalette.ColorRole.Window, QColor(0, 0, 50))
-        # self.setPalette(palette)
-        self.top_bar_layout.addWidget(QLabel("Time Control:"))
-        self.top_bar_layout.addWidget(self.time_slider)
-        self.top_bar_layout.addWidget(self.time_label)
+        timeslider_layout = QHBoxLayout()
+        timeslider_layout.addWidget(QLabel("Time:"))
+        timeslider_layout.addWidget(self.time_slider)
+        timeslider_layout.addWidget(self.time_label)
+
+        timebutton_layout = QHBoxLayout()
+        timebutton_layout.addWidget(self.RegressButton)
+        timebutton_layout.addWidget(self.PlayPauseButton)
+        timebutton_layout.addWidget(self.ProgressButton)
+
+        left_controls_layout = QVBoxLayout()
+        left_controls_layout.addLayout(timeslider_layout)
+        left_controls_layout.addLayout(timebutton_layout)
+
+        self.top_bar_layout.addLayout(left_controls_layout)
+        self.top_bar_layout.addStretch(1)
+
         self.main_layout.addLayout(self.top_bar_layout)
         self.main_layout.addWidget(self.circle_model)
         self.main_layout.addWidget(self.data_processing)
-        self.top_bar_layout.addWidget(self.RegressButton)
-        self.top_bar_layout.addWidget(self.PlayPauseButton)
-        self.top_bar_layout.addWidget(self.ProgressButton)
-        self.time_slider.setMinimum(0)  
-        self.time_slider.setTickPosition(QSlider.TickPosition.TicksBelow)
+
+        self.time_slider.setMinimum(0)
+        self.time_slider.setTickPosition(QSlider.TickPosition.NoTicks)
         self.time_slider.valueChanged.connect(self.update_time)
+
+
 
     def Progress(self):
         if self.time_slider.value() < self.time_slider.maximum():
@@ -82,6 +93,7 @@ class MyWindow(QWidget):
             self.time_slider.setTracking(True)
             max_time_index = len(self.data_processing.times) - 1
             self.time_slider.setMaximum(max_time_index)
+            self.time_slider.setValue(0)
             self.update_time(0)
 
         else:
@@ -90,7 +102,7 @@ class MyWindow(QWidget):
     def update_time(self, timeIndex):
         if self.data_processing.times:
             current_time = self.data_processing.times[timeIndex]
-            self.time_label.setText(f"Time: {current_time:.3f}")
+            self.time_label.setText(f"{current_time:.3f}")
             self.circle_model.fullModelUpdate(self.data_processing, timeIndex)
 
     def PlayPauseControl(self):
